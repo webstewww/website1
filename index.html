@@ -1,27 +1,260 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test</title>
-    <style>
-        body { 
-            background: blue !important; 
-            color: white !important; 
-            font-size: 20px !important;
-            padding: 20px !important;
-        }
-        .test { 
-            background: red !important; 
-            padding: 20px !important; 
-            margin: 20px !important;
-            border: 5px solid yellow !important;
-        }
-    </style>
+    <title>Perfume Advisor 97</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif !important;
+            margin: 0 !important;
+            background: #008080 !important;
+            color: white !important;
+        }
+        
+        .desktop {
+            min-height: 100vh !important;
+            background: linear-gradient(45deg, #008080, #20b2aa) !important;
+            padding: 20px !important;
+        }
+        
+        .window {
+            background: #c0c0c0 !important;
+            border: 3px solid #808080 !important;
+            margin: 20px auto !important;
+            max-width: 500px !important;
+            color: black !important;
+        }
+        
+        .titlebar {
+            background: blue !important;
+            color: white !important;
+            padding: 5px 10px !important;
+            font-weight: bold !important;
+        }
+        
+        .content {
+            padding: 20px !important;
+            text-align: center !important;
+        }
+        
+        .perfume-icon {
+            font-size: 50px !important;
+            margin: 10px !important;
+        }
+        
+        button {
+            background: #c0c0c0 !important;
+            border: 2px outset #c0c0c0 !important;
+            padding: 8px 16px !important;
+            margin: 10px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+        }
+        
+        button:active {
+            border: 2px inset #c0c0c0 !important;
+        }
+        
+        .category {
+            background: white !important;
+            border: 2px inset #c0c0c0 !important;
+            margin: 10px !important;
+            padding: 10px !important;
+            cursor: pointer !important;
+        }
+        
+        .category.selected {
+            background: blue !important;
+            color: white !important;
+        }
+        
+        .perfume-card {
+            background: white !important;
+            border: 2px inset #c0c0c0 !important;
+            margin: 10px !important;
+            padding: 15px !important;
+            text-align: left !important;
+        }
+        
+        .taskbar {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: #c0c0c0 !important;
+            border-top: 2px solid white !important;
+            padding: 5px !important;
+            color: black !important;
+        }
+        
+        .start-btn {
+            background: #c0c0c0 !important;
+            border: 1px outset #c0c0c0 !important;
+            padding: 2px 8px !important;
+            margin-right: 10px !important;
+        }
+        
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
-    <h1>CSS TEST</h1>
-    <div class="test">
-        <p>If this has a red background with yellow border, CSS works!</p>
-        <p>If this is just plain text, your phone has CSS issues.</p>
-    </div>
+    <div class="desktop">
+        <!-- Welcome Screen -->
+        <div id="welcome" class="window">
+            <div class="titlebar">🪟 Perfume Advisor 97</div>
+            <div class="content">
+                <div class="perfume-icon">🌸</div>
+                <h2>Welcome to Perfume Advisor 97</h2>
+                <p>Find your perfect fragrance!</p>
+                <button onclick="showQuestionnaire()">Start Analysis</button>
+            </div>
+        </div>
+        
+        <!-- Questionnaire -->
+        <div id="questionnaire" class="window hidden">
+            <div class="titlebar">Scent Profile</div>
+            <div class="content">
+                <h3>Select your favorite scents:</h3>
+                
+                <div class="category" onclick="toggleCategory('Floral')">
+                    <strong>🌸 Floral</strong><br>
+                    Rose, jasmine, lily scents
+                </div>
+                
+                <div class="category" onclick="toggleCategory('Fresh')">
+                    <strong>🌊 Fresh</strong><br>
+                    Clean, aquatic, airy scents
+                </div>
+                
+                <div class="category" onclick="toggleCategory('Citrus')">
+                    <strong>🍋 Citrus</strong><br>
+                    Lemon, orange, bergamot scents
+                </div>
+                
+                <div class="category" onclick="toggleCategory('Woody')">
+                    <strong>🌳 Woody</strong><br>
+                    Cedar, sandalwood, oak scents
+                </div>
+                
+                <div class="category" onclick="toggleCategory('Oriental')">
+                    <strong>🌟 Oriental</strong><br>
+                    Spices, amber, exotic scents
+                </div>
+                
+                <div class="category" onclick="toggleCategory('Gourmand')">
+                    <strong>🍰 Gourmand</strong><br>
+                    Vanilla, chocolate, sweet scents
+                </div>
+                
+                <br>
+                <button onclick="showWelcome()">Back</button>
+                <button onclick="getRecommendations()">Get Perfumes!</button>
+            </div>
+        </div>
+        
+        <!-- Results -->
+        <div id="results" class="window hidden">
+            <div class="titlebar">Your Recommendations</div>
+            <div class="content">
+                <h3>🎯 Perfect Matches!</h3>
+                <div id="perfume-list"></div>
+                <button onclick="showWelcome()">Try Again</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <span class="start-btn">🪟 Start</span>
+        <span>Perfume Advisor 97</span>
+        <span style="float: right;" id="time"></span>
+    </div>
+
+    <script>
+        let selectedCategories = [];
+        
+        const perfumes = [
+            { name: "Chanel No. 5", categories: ["Floral", "Oriental"], description: "Classic feminine fragrance" },
+            { name: "Dior Sauvage", categories: ["Fresh", "Woody"], description: "Fresh masculine fragrance" },
+            { name: "Tom Ford Black Orchid", categories: ["Oriental", "Floral"], description: "Luxury dark floral" },
+            { name: "Marc Jacobs Daisy", categories: ["Floral", "Fresh", "Citrus"], description: "Playful feminine scent" },
+            { name: "YSL Black Opium", categories: ["Gourmand", "Oriental"], description: "Coffee and vanilla addiction" },
+            { name: "Creed Aventus", categories: ["Fresh", "Woody"], description: "Sophisticated fruity scent" }
+        ];
+        
+        function showWelcome() {
+            document.getElementById('welcome').classList.remove('hidden');
+            document.getElementById('questionnaire').classList.add('hidden');
+            document.getElementById('results').classList.add('hidden');
+            selectedCategories = [];
+            updateCategoryDisplay();
+        }
+        
+        function showQuestionnaire() {
+            document.getElementById('welcome').classList.add('hidden');
+            document.getElementById('questionnaire').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+        }
+        
+        function toggleCategory(category) {
+            if (selectedCategories.includes(category)) {
+                selectedCategories = selectedCategories.filter(c => c !== category);
+            } else {
+                selectedCategories.push(category);
+            }
+            updateCategoryDisplay();
+        }
+        
+        function updateCategoryDisplay() {
+            const categories = document.querySelectorAll('.category');
+            categories.forEach(cat => {
+                const categoryName = cat.onclick.toString().match(/'([^']+)'/)[1];
+                if (selectedCategories.includes(categoryName)) {
+                    cat.classList.add('selected');
+                } else {
+                    cat.classList.remove('selected');
+                }
+            });
+        }
+        
+        function getRecommendations() {
+            if (selectedCategories.length === 0) {
+                alert('Please select at least one scent category!');
+                return;
+            }
+            
+            let matches = perfumes.filter(perfume => 
+                perfume.categories.some(cat => selectedCategories.includes(cat))
+            );
+            
+            if (matches.length === 0) {
+                matches = perfumes.slice(0, 3);
+            }
+            
+            matches = matches.slice(0, 3);
+            
+            let html = '';
+            matches.forEach((perfume, index) => {
+                html += `
+                    <div class="perfume-card">
+                        <strong>#${index + 1} - ${perfume.name}</strong><br>
+                        ${perfume.description}<br>
+                        <small>Categories: ${perfume.categories.join(', ')}</small>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('perfume-list').innerHTML = html;
+            document.getElementById('welcome').classList.add('hidden');
+            document.getElementById('questionnaire').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+        }
+        
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
 </body>
 </html>
