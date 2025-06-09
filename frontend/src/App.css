@@ -1,38 +1,437 @@
+/* Windows 97 Styles */
+@import url('https://fonts.googleapis.com/css2?family=MS+Sans+Serif:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
 .App {
-    text-align: center;
+  font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+  font-size: 11px;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Desktop Background */
+.desktop-background {
+  background-image: url('https://images.unsplash.com/photo-1642182584235-be600dfef913');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Taskbar */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
+  border-top: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: inset 0 1px 0 #ffffff, inset 1px 0 0 #ffffff;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
+.start-button {
+  height: 22px;
+  padding: 2px 8px;
+  margin: 3px;
+  background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
+  border: 1px outset #c0c0c0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.start-button:hover {
+  background: linear-gradient(to bottom, #d0d0d0 0%, #909090 100%);
+}
+
+.start-icon {
+  font-size: 12px;
+}
+
+.taskbar-apps {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  margin-left: 4px;
+}
+
+.taskbar-app {
+  height: 22px;
+  padding: 2px 8px;
+  background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
+  border: 1px inset #c0c0c0;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+}
+
+.taskbar-app.active {
+  border: 1px inset #c0c0c0;
+  background: linear-gradient(to bottom, #808080 0%, #c0c0c0 100%);
+}
+
+.taskbar-time {
+  padding: 2px 8px;
+  border: 1px inset #c0c0c0;
+  margin: 3px;
+  font-size: 10px;
+  background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
+}
+
+/* Desktop Content */
+.desktop-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-bottom: 50px;
+}
+
+/* Windows */
+.window {
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  min-width: 400px;
+  max-width: 800px;
+  width: 90%;
+}
+
+.title-bar {
+  background: linear-gradient(90deg, #0000ff 0%, #000080 100%);
+  color: white;
+  padding: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 18px;
+}
+
+.title-bar-text {
+  font-weight: bold;
+  font-size: 11px;
+  padding-left: 4px;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.title-bar-control {
+  width: 16px;
+  height: 14px;
+  background: #c0c0c0;
+  border: 1px outset #c0c0c0;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.title-bar-control:hover {
+  background: #d0d0d0;
+}
+
+.window-body {
+  padding: 8px;
+  background: #c0c0c0;
+}
+
+/* Welcome Screen */
+.welcome-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.icon-section {
+  margin-bottom: 16px;
+}
+
+.perfume-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.welcome-content h1 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 8px 0;
+  color: #000080;
+}
+
+.welcome-content p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+/* Questionnaire */
+.questionnaire-content {
+  padding: 12px;
+}
+
+.questionnaire-content h2 {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #000080;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.category-card {
+  background: #ffffff;
+  border: 2px inset #c0c0c0;
+  padding: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.1s;
+}
+
+.category-card:hover {
+  background: #f0f0f0;
+}
+
+.category-card.selected {
+  background: #0000ff;
+  color: white;
+  border: 2px inset #0000ff;
+}
+
+.category-name {
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.category-desc {
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+.checkbox {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+  border: 1px inset #c0c0c0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}
+
+.category-card.selected .checkbox {
+  background: #0000ff;
+  border: 1px inset #0000ff;
+  color: white;
+}
+
+/* Form Elements */
+.form-section {
+  margin-bottom: 12px;
+}
+
+.form-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+
+.form-section select {
+  width: 100%;
+  padding: 2px;
+  border: 2px inset #c0c0c0;
+  background: white;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+/* Buttons */
+.button-section {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 4px 16px;
+  border: 2px outset #c0c0c0;
+  background: #c0c0c0;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  min-height: 23px;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+  background: #d0d0d0;
+}
+
+.btn-primary:active, .btn-secondary:active {
+  border: 2px inset #c0c0c0;
+}
+
+.btn-primary:disabled {
+  color: #808080;
+  cursor: not-allowed;
+}
+
+/* Results Screen */
+.results-content {
+  padding: 12px;
+}
+
+.results-content h2 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #000080;
+  text-align: center;
+}
+
+.results-content > p {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 11px;
+}
+
+.recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.perfume-card {
+  background: white;
+  border: 2px inset #c0c0c0;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.rank {
+  background: #000080;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.perfume-info {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.perfume-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 1px solid #808080;
+  flex-shrink: 0;
+}
+
+.perfume-details {
+  flex: 1;
+}
+
+.perfume-details h3 {
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  color: #000080;
+}
+
+.perfume-details p {
+  font-size: 10px;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.notes {
+  font-size: 9px;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.categories {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.category-tag {
+  background: #c0c0c0;
+  border: 1px solid #808080;
+  padding: 1px 4px;
+  font-size: 8px;
+  border-radius: 2px;
+}
+
+.category-tag.match {
+  background: #000080;
+  color: white;
+  border-color: #000080;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .window {
+    min-width: 320px;
+    width: 95%;
+  }
+  
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .perfume-info {
+    flex-direction: column;
+  }
+  
+  .perfume-image {
+    align-self: center;
+  }
+  
+  .button-section {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 150px;
+  }
 }
