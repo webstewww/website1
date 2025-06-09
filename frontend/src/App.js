@@ -114,6 +114,9 @@ function App() {
     gender: ''
   });
   const [recommendations, setRecommendations] = useState([]);
+  const [showNotepad, setShowNotepad] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   const handleCategoryToggle = (category) => {
     setPreferences(prev => ({
@@ -155,8 +158,90 @@ function App() {
     setRecommendations([]);
   };
 
+  const DesktopIcon = ({ icon, label, x, y, onDoubleClick }) => (
+    <div 
+      className="desktop-icon" 
+      style={{ left: x, top: y }}
+      onDoubleClick={onDoubleClick}
+    >
+      <div className="desktop-icon-image">{icon}</div>
+      <div className="desktop-icon-label">{label}</div>
+    </div>
+  );
+
+  const Notepad = () => (
+    <div className="window notepad-window" style={{ position: 'absolute', left: '50px', top: '50px', width: '350px', zIndex: 5 }}>
+      <div className="title-bar">
+        <div className="title-bar-text">Notepad - Fragrance Notes.txt</div>
+        <div className="title-bar-controls">
+          <button className="title-bar-control" aria-label="Minimize"></button>
+          <button className="title-bar-control" aria-label="Maximize"></button>
+          <button className="title-bar-control" aria-label="Close" onClick={() => setShowNotepad(false)}>✕</button>
+        </div>
+      </div>
+      <div className="window-body" style={{ padding: '4px' }}>
+        <textarea 
+          className="notepad-textarea"
+          defaultValue={`My Fragrance Notes:
+          
+• Need something fresh for summer
+• Love citrus and floral combinations  
+• Avoid heavy oriental scents
+• Looking for daily wear perfume
+• Budget: $50-150
+
+Favorites so far:
+- Light florals ✓
+- Citrus bergamot ✓
+- Clean ocean scents ✓`}
+          readOnly
+        />
+      </div>
+    </div>
+  );
+
+  const Calculator = () => (
+    <div className="window calculator-window" style={{ position: 'absolute', right: '100px', top: '80px', width: '200px', zIndex: 4 }}>
+      <div className="title-bar">
+        <div className="title-bar-text">Calculator</div>
+        <div className="title-bar-controls">
+          <button className="title-bar-control" aria-label="Close" onClick={() => setShowCalculator(false)}>✕</button>
+        </div>
+      </div>
+      <div className="window-body calculator-body">
+        <div className="calculator-display">0</div>
+        <div className="calculator-buttons">
+          {['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+'].map(btn => (
+            <button key={btn} className="calculator-btn">{btn}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const AboutDialog = () => (
+    <div className="window about-window" style={{ position: 'absolute', left: '150px', top: '120px', width: '300px', zIndex: 6 }}>
+      <div className="title-bar">
+        <div className="title-bar-text">About Perfume Advisor</div>
+        <div className="title-bar-controls">
+          <button className="title-bar-control" aria-label="Close" onClick={() => setShowAbout(false)}>✕</button>
+        </div>
+      </div>
+      <div className="window-body" style={{ padding: '12px', textAlign: 'center' }}>
+        <div style={{ fontSize: '32px', marginBottom: '8px' }}>🌸</div>
+        <h3>Perfume Advisor 97</h3>
+        <p>Version 1.0</p>
+        <p style={{ fontSize: '9px', margin: '8px 0' }}>
+          Advanced fragrance recommendation system using scent profiling technology.
+        </p>
+        <p style={{ fontSize: '9px' }}>© 1997 FragranceTech Systems</p>
+        <button className="btn-primary" onClick={() => setShowAbout(false)} style={{ marginTop: '8px' }}>OK</button>
+      </div>
+    </div>
+  );
+
   const WelcomeScreen = () => (
-    <div className="window">
+    <div className="window main-window">
       <div className="title-bar">
         <div className="title-bar-text">Perfume Advisor 97</div>
         <div className="title-bar-controls">
@@ -184,7 +269,7 @@ function App() {
   );
 
   const QuestionnaireScreen = () => (
-    <div className="window">
+    <div className="window main-window">
       <div className="title-bar">
         <div className="title-bar-text">Scent Profile Questionnaire</div>
         <div className="title-bar-controls">
@@ -254,7 +339,7 @@ function App() {
   );
 
   const ResultsScreen = () => (
-    <div className="window">
+    <div className="window main-window">
       <div className="title-bar">
         <div className="title-bar-text">Your Perfume Recommendations</div>
         <div className="title-bar-controls">
@@ -306,19 +391,41 @@ function App() {
   return (
     <div className="App">
       <div className="desktop-background">
+        {/* Desktop Icons */}
+        <DesktopIcon icon="💻" label="My Computer" x="20px" y="20px" />
+        <DesktopIcon icon="🗑️" label="Recycle Bin" x="20px" y="100px" />
+        <DesktopIcon icon="📁" label="My Documents" x="20px" y="180px" />
+        <DesktopIcon icon="📄" label="Fragrance Notes" x="20px" y="260px" onDoubleClick={() => setShowNotepad(true)} />
+        <DesktopIcon icon="🧮" label="Calculator" x="20px" y="340px" onDoubleClick={() => setShowCalculator(true)} />
+        <DesktopIcon icon="ℹ️" label="About" x="20px" y="420px" onDoubleClick={() => setShowAbout(true)} />
+        
+        {/* Background Windows */}
+        {showNotepad && <Notepad />}
+        {showCalculator && <Calculator />}
+        {showAbout && <AboutDialog />}
+        
+        {/* Taskbar */}
         <div className="taskbar">
           <div className="start-button">
-            <span className="start-icon">🪟</span>
+            <div className="windows-flag">
+              <div className="flag-red"></div>
+              <div className="flag-green"></div>
+              <div className="flag-blue"></div>
+              <div className="flag-yellow"></div>
+            </div>
             Start
           </div>
           <div className="taskbar-apps">
             <div className="taskbar-app active">Perfume Advisor 97</div>
+            {showNotepad && <div className="taskbar-app">Notepad</div>}
+            {showCalculator && <div className="taskbar-app">Calculator</div>}
           </div>
           <div className="taskbar-time">
             {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
           </div>
         </div>
         
+        {/* Main Application Window */}
         <div className="desktop-content">
           {currentStep === 'welcome' && <WelcomeScreen />}
           {currentStep === 'questionnaire' && <QuestionnaireScreen />}
